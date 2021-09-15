@@ -5,66 +5,111 @@
     </head>
     <body>
 	    <h1>Become familiar with basic HTML.</h1>
-        <header>Sai Lakshmi Kundana Sakhamuri</header>
-        <h4>Istanbul</h4>
-        <p>Istanbul is a city in Turkey.Istanbul is best known for being the <b>cultural, economic and historic</b> center for Turkey.The streets are filled with the <b>aroma of Turkish spices</b> and various sweet delicious snacks.</p>
-        <hr>
-        <h4>Maryville to Istanbul</h4>
-        <ol>
-            <li>Get a ride to Kansas Airport from Maryville</li>
-            <li>Kansas to Istanbul
-                <ol>
-                    <li>Take a flight from Kansas to Newyork</li>
-                    <li>From Newyork take a flight to Istanbul</li>
-                </ol>
-            </li>
-        </ol>
-        <ul>
-            <li>Sunscreen</li>
-            <li>Hat or Cap</li>
-            <li>Camera</li>
-            <li>Adapter for Turkey</li>
-            <li>Turkish lira</li>
-        </ul>
-        <a href="aboutme.html">Navigate to AboutMe file</a>
-        <style>
-            table {
-              border-collapse: collapse;
-              width: 70%;
-            }            
-            td, th {
-              border: 1px solid black;
-              text-align: left;
-              padding: 8px;
-            }            
+      <header>Sai Lakshmi Kundana Sakhamuri</header>
+      <h4>Istanbul</h4>
+      <p>Istanbul is a city in Turkey.Istanbul is best known for being the <b>cultural, economic and historic</b> center for Turkey.The streets are filled with the <b>aroma of Turkish spices</b> and various sweet delicious snacks.</p>
+      <hr>
+      <h4>Maryville to Istanbul</h4>
+      <ol>
+        <li>Get a ride to Kansas Airport from Maryville</li>
+        <li>Kansas to Istanbul
+          <ol>
+            <li>Take a flight from Kansas to Newyork</li>
+            <li>From Newyork take a flight to Istanbul</li>
+          </ol>
+        </li>
+      </ol>
+      <ul>
+        <li>Sunscreen</li>
+        <li>Hat or Cap</li>
+        <li>Camera</li>
+        <li>Adapter for Turkey</li>
+        <li>Turkish lira</li>
+      </ul>
+      <a href="aboutme.html">Navigate to AboutMe file</a>
+      <style>
+        table {
+          border-collapse: collapse;
+           width: 70%;
+        }            
+        td, th {
+          border: 1px solid black;
+          text-align: left;
+          padding: 8px;
+        }            
         </style>
         <h2>HTML Table</h2>
         <table>
-            <tr>
-              <th>Food/Drink</th>
-              <th>Location</th>
-              <th>Amount</th>
-            </tr>
-            <tr>
-              <td>Menemen</td>
-              <td>Lades Muhallebi</td>
-              <td>200</td>
-            </tr>
-            <tr>
-              <td>Mezea</td>
-              <td>Giritli Restoran</td>
-              <td>1000</td>
-            </tr>
-            <tr>
-              <td>Lüfer</td>
-              <td>Emek Mantı </td>
-              <td>Austria</td>
-            </tr>
-            <tr>
-              <td>Kuyu Kebabı</td>
-              <td>Siirt</td>
-              <td>500</td>
-            </tr>         
-          </table>               
+          <tr>
+            <th>Food/Drink</th>
+            <th>Location</th>
+            <th>Amount</th>
+          </tr>
+          <tr>
+            <td>Menemen</td>
+            <td>Lades Muhallebi</td>
+            <td>200</td>
+          </tr>
+          <tr>
+            <td>Mezea</td>
+            <td>Giritli Restoran</td>
+            <td>1000</td>
+          </tr>
+          <tr>
+            <td>Lüfer</td>
+            <td>Emek Mantı </td>
+            <td>300</td>
+          </tr>
+          <tr>
+            <td>Kuyu Kebabı</td>
+            <td>Siirt</td>
+            <td>500</td>
+          </tr>         
+        </table> 
+        <hr>       
+        <h3>Convex hull algorithms</h3>
+	      <blockquote cite="https://en.wikipedia.org/wiki/Convex_hull_algorithms">Algorithms that construct convex hulls of various objects have a broad range of applications in mathematics and computer science.In computational geometry, numerous algorithms are proposed for computing the convex hull of a finite set of points, with various computational complexities.
+        </blockquote>
+        <a href="https://en.wikipedia.org/wiki/Convex_hull_algorithms"target="_blank">Wiki for Convex hull Algorithm</a>
+        <pre>
+        struct pt {
+            double x, y;
+        };        
+        bool cmp(pt a, pt b) {
+            return a.x < b.x || (a.x == b.x && a.y < b.y);
+        }        
+        bool cw(pt a, pt b, pt c) {
+            return a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y) < 0;
+        }        
+        bool ccw(pt a, pt b, pt c) {
+            return a.x*(b.y-c.y)+b.x*(c.y-a.y)+c.x*(a.y-b.y) > 0;
+        }        
+        void convex_hull(vector<pt>& a) {
+            if (a.size() == 1)
+                return;     
+            sort(a.begin(), a.end(), &cmp);
+            pt p1 = a[0], p2 = a.back();
+            vector<pt> up, down;
+            up.push_back(p1);
+            down.push_back(p1);
+            for (int i = 1; i < (int)a.size(); i++) {
+                if (i == a.size() - 1 || cw(p1, a[i], p2)) {
+                    while (up.size() >= 2 && !cw(up[up.size()-2], up[up.size()-1], a[i]))
+                        up.pop_back();
+                    up.push_back(a[i]);
+                }
+                if (i == a.size() - 1 || ccw(p1, a[i], p2)) {
+                    while(down.size() >= 2 && !ccw(down[down.size()-2], down[down.size()-1], a[i]))
+                        down.pop_back();
+                    down.push_back(a[i]);
+                }
+            }        
+            a.clear();
+            for (int i = 0; i < (int)up.size(); i++)
+                a.push_back(up[i]);
+            for (int i = down.size() - 2; i > 0; i--)
+                a.push_back(down[i]);
+        }       
+        </pre>
     </body>
 </html>
